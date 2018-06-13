@@ -1,0 +1,31 @@
+<div class="form-group" [formGroup]="form">
+    <label class="form-control-label" [attr.for]="control.field">{{control.label}}</label>
+    <span *ngIf="control.required" class="ml-1 text-danger">*</span>
+
+    <div [ngSwitch]="control.controlType">
+        <input *ngSwitchCase="'input'"
+               [ngClass]="{ 'is-invalid': config.submitted && !isValid }"
+               [formControlName]="control.field"
+               [placeholder]="control.placeholder"
+               class="form-control"
+               [id]="control.field" [type]="control.type" />
+
+        <select [id]="control.field"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': config.submitted && !isValid }"
+                *ngSwitchCase="'dropdown'"
+                [formControlName]="control.field">
+            <option *ngFor="let opt of control.options" [value]="opt.field">{{opt.value}}</option>
+        </select>
+
+        <!-- ng container is not visible, add the class in the coomponent or render it on the element with the directive? -->
+        <ng-container *ngSwitchCase="'component'"
+                      fluentFormComponentControl
+                      [control]="control"
+                      [group]="form"></ng-container>
+    </div>
+
+    <div class="text-danger" [hidden]="!config.submitted || isValid">
+        {{ errors }}
+    </div>
+</div>

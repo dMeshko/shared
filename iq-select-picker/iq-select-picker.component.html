@@ -1,0 +1,88 @@
+<label *ngIf="label!=null">
+    {{label}}
+    <span *ngIf="isRequired" class="red">*</span>
+</label>
+
+<ng-select #ngSelect
+           style="width: 600px"
+           [items]="items"
+           [bindLabel]="bindLabel"
+           [bindValue]="bindValue"
+           [disabled]="isDisabled"
+           [multiple]="isMultiple"
+           [loading]="isLoading"
+           [searchable]="true"
+           [clearable]="true"
+           [placeholder]="placeholder"
+           [hideSelected]="true"
+           [(ngModel)]="modelValue">
+
+    <ng-template *ngIf="headerTemplateRef!=null" ng-header-tmp>
+        <ng-container>
+            <ng-template [ngTemplateOutlet]="headerTemplateRef">
+            </ng-template>
+        </ng-container>
+    </ng-template>
+
+    <ng-template *ngIf="optionTemplateRef!=null" ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+        <ng-container>
+            <ng-template [ngTemplateOutlet]="optionTemplateRef"
+                         [ngTemplateOutletContext]="{item: item, index:index, searchTerm:searchTerm}">
+            </ng-template>
+        </ng-container>
+    </ng-template>
+
+    <ng-template *ngIf="labelTemplateRef!=null" ng-label-tmp let-item="item">
+        <ng-container>
+            <ng-template [ngTemplateOutlet]="labelTemplateRef"
+                         [ngTemplateOutletContext]="{item: item}">
+            </ng-template>
+        </ng-container>
+    </ng-template>
+
+    <ng-template *ngIf="optGroupTemplateRef!=null" ng-optgroup-tmp let-item="item" let-index="index">
+        <ng-container>
+            <ng-template [ngTemplateOutlet]="optGroupTemplateRef"
+                         [ngTemplateOutletContext]="{item: item, index:index}">
+            </ng-template>
+        </ng-container>
+    </ng-template>
+
+    <ng-template *ngIf="typeToSearchTemplateRef!=null" ng-typetosearch-tmp>
+        <ng-container>
+            <ng-template [ngTemplateOutlet]="typeToSearchTemplateRef"
+                         [ngTemplateOutletContext]="{item: item, index:index}">
+            </ng-template>
+        </ng-container>
+    </ng-template>
+
+    <ng-template *ngIf="notFoundTemplateRef!=null" ng-notfound-tmp let-searchTerm="searchTerm">
+        <ng-container>
+            <ng-template [ngTemplateOutlet]="notFoundTemplateRef"
+                         [ngTemplateOutletContext]="{searchTerm: searchTerm}">
+            </ng-template>
+        </ng-container>
+    </ng-template>
+
+    <ng-template *ngIf="loadingTextTemplateRef!=null" ng-loadingtext-tmp let-searchTerm="searchTerm">
+        <ng-container>
+            <ng-template [ngTemplateOutlet]="loadingTextTemplateRef"
+                         [ngTemplateOutletContext]="{searchTerm: searchTerm}">
+            </ng-template>
+        </ng-container>
+    </ng-template>
+
+    <ng-template *ngIf="footerTemplateRef!=null" ng-footer-tmp>
+        <ng-container>
+            <ng-template [ngTemplateOutlet]="footerTemplateRef">
+            </ng-template>
+        </ng-container>
+    </ng-template>
+
+</ng-select>
+
+<!--_modelValue= <pre>{{_modelValue}}</pre>
+
+items = <pre>{{items | json}}</pre>
+
+selectedItems = <pre>{{selectedItems | json}}</pre>-->

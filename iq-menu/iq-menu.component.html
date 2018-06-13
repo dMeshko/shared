@@ -1,0 +1,13 @@
+<!-- default template -->
+<ul *ngIf="!template">
+    <li *ngFor="let menu of items">
+        <a [routerLink]="[menu.path]">{{ menu.pageTitle }}</a>
+    </li>
+    
+</ul>
+
+<!-- custom template -->
+<ng-template
+    *ngIf="template"
+    [ngTemplateOutlet]="template"
+    [ngTemplateOutletContext]="templateContext"></ng-template>

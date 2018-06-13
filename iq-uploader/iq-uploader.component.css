@@ -1,0 +1,16 @@
+.drop-zone {
+    border: dotted 3px lightgray;
+}
+
+.nv-file-over {
+    border: dotted 3px red;
+}
+
+table {
+    margin-bottom: 0 !important;
+}
+
+a.browse {
+    color: blue !important;
+    cursor: pointer;
+}

@@ -1,0 +1,25 @@
+<ng-template #modalContent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h2>{{ config.modalHeader }}</h2>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form [formGroup]="form" class="fluent-form">
+        <div class="modal-body">
+            <div *ngFor="let control of config.controls">
+                <div *ngIf="control.controlType === 'row'" class="row">
+                    <fluent-form-control *ngFor="let subControl of control.controls" [classList]="subControl.css" [config]="config" [control]="subControl" [form]="form"></fluent-form-control>
+                </div>
+                <fluent-form-control *ngIf="control.controlType !== 'row'" [classList]="control.css" [config]="config" [control]="control" [form]="form"></fluent-form-control>
+            </div>
+			
+			<strong class="font-italic">Note: All fields marked with an asterisk (<span class="text-danger">*</span>) are required.</strong>
+        </div>
+        <div class="modal-footer">
+            <div *ngFor="let action of config.actions">
+                <fluent-form-action [config]="config" [action]="action" [form]="form" (modalAction)="modalAction($event)"></fluent-form-action>
+            </div>
+        </div>
+    </form>
+</ng-template>

@@ -1,0 +1,96 @@
+<div class="row">
+    <div class="col-md-12">
+        <ngx-datatable #fluentTable
+                       class="bootstrap expandable"
+                       [groupExpansionDefault]="config.grouping?.expandGroups"
+                       [reorderable]="false"
+                       [columnMode]="'flex'"
+                       [headerHeight]="50"
+                       [footerHeight]="50"
+                       [rowHeight]="'auto'"
+                       (sort)="onSort($event)"
+                       (select)="onSelect($event)"
+                       [selectAllRowsOnPage]="true"
+                       [selectionType]="selectionType"
+                       [selected]="selectedRows"
+                       [selectCheck]="enableCheck"
+                       [displayCheck]="enableCheck"
+                       [sortType]="sortingType"
+                       [sorts]="sorts"
+                       [rowClass]="config.rowClass"
+                       [rows]="rows"
+                       [columns]="columns">
+
+            <!-- Group Header Template -->
+            <ngx-datatable-group-header *ngIf="config.grouping" [rowHeight]="50" #groupHeader (toggle)="onGroupToggle($event)">
+                <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+                    <div style="padding-left: 5px;">
+                        <a [class.datatable-icon-right]="!expanded"
+                           [class.datatable-icon-down]="expanded"
+                           title="Expand/Collapse Group"
+                           (click)="toggleGroup(group)">
+                            <b>{{ group.value[0][config.grouping.field] }}</b>
+                        </a>
+                    </div>
+                </ng-template>
+            </ngx-datatable-group-header>
+
+            <!-- Table Footer Template -->
+            <ngx-datatable-footer>
+                <ng-template ngx-datatable-footer-template
+                             let-rowCount="rowCount"
+                             let-pageSize="pageSize"
+                             let-selectedCount="selectedCount"
+                             let-curPage="curPage"
+                             let-offset="offset">
+                    <!-- Status -->
+                    <div class="mr-auto ml-2">
+                        Showing {{ footerData.startingDisplayIndex }} to {{ footerData.endingDisplayIndex }} of {{ footerData.totalItems }} entries
+                    </div>
+
+                    <!-- Pagination -->
+                    <div *ngIf="footerData.totalItems > tableRequest.count" class="mr-2">
+                        <ngb-pagination [collectionSize]="footerData.totalPages"
+                                        [(page)]="tableRequest.page"
+                                        [pageSize]="1"
+                                        (pageChange)="onPageChange($event)"
+                                        aria-label="Table pagination"></ngb-pagination>
+                    </div>
+
+                    <!-- Page size dropdown -->
+                    <div *ngIf="footerData.totalItems > tableRequest.count" class="mr-2">
+                        <div ngbDropdown placement="top-right" class="d-inline-block">
+                            <button class="btn" id="pageSizeOptions" ngbDropdownToggle>{{ tableRequest.count }}</button>
+                            <div ngbDropdownMenu aria-labelledby="pageSizeOptions">
+                                <button *ngFor="let pageSize of availablePageSizes"
+                                        (click)="onPageSizeChange(pageSize)"
+                                        [class.active]="pageSize === tableRequest.count"
+                                        class="dropdown-item">
+                                    {{ pageSize }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Export dropdown -->
+                    <div class="mr-2">
+                        <div ngbDropdown placement="top-right" class="d-inline-block">
+                            <button class="btn" id="exportOptions" ngbDropdownToggle>Export</button>
+                            <div ngbDropdownMenu aria-labelledby="exportOptions">
+                                <button (click)="onExport('excel')" class="dropdown-item">Export to Excel</button>
+                                <button (click)="onExport('pdf')" class="dropdown-item">Export to Pdf</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Refresh button -->
+                    <div *ngIf="footerData.totalItems > 0" class="mr-2">
+                        <button (click)="onDataRefresh()" class="btn btn-default">
+                            <i class="fa fa-refresh"></i>
+                        </button>
+                    </div>
+                </ng-template>
+            </ngx-datatable-footer>
+        </ngx-datatable>
+    </div>
+</div>

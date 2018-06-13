@@ -1,0 +1,7 @@
+<div [formGroup]="form">
+    <input [formControlName]="action.field"
+           [id]="action.field"
+           [type]="action.actionType"
+           [classList]="action.css"
+           (click)="triggerEvent()" />
+</div>
